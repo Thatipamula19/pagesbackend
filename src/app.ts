@@ -27,9 +27,9 @@ app.use((req, res, next) => {
     next();
   });
 
-  mongoose.connect('mongodb://localhost:27017/testDatabase')
+  // mongoose.connect('mongodb://localhost:27017/testDatabase')
 
-  // mongoose.connect('mongodb+srv://thatipamula:venkat@1910@cluster0.uo6jc.mongodb.net/testDatabase')
+  mongoose.connect('mongodb+srv://thatipamula:venkat1910@cluster0.uo6jc.mongodb.net/testDatabase?retryWrites=true&w=majority')
   .then(result => {
     console.log('Database Connected!')
     app.listen(8080);
