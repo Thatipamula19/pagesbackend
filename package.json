@@ -23,6 +23,8 @@
     "mongoose-unique-validator": "^4.0.0",
     "nodemon": "^2.0.22",
     "sequelize": "^6.31.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
     "typescript": "^5.0.4"
   }
 }

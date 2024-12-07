@@ -1,3 +1,5 @@
+import swaggerDocs from "./utils/swagger";
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -33,6 +35,7 @@ app.use((req, res, next) => {
   .then(result => {
     console.log('Database Connected!')
     app.listen(8080);
+    swaggerDocs(app, 8080);
   })
   .catch(err => {
     console.log(err);

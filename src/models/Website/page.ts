@@ -1,6 +1,22 @@
 import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
+/**
+ * @openapi
+ * components:
+ *   models:
+ *     Page:
+ *       type: object
+ *       required:
+ *         - page
+ *         - pageUrl
+ *       properties:
+ *         page:
+ *           type: string
+ *         pageUrl:
+ *           type: string
+ *            
+ */
 
 const pageSchema = new Schema({
     page: {

@@ -1,3 +1,5 @@
+import e from "express";
+
 const pageSchema = require('../../models/Website/page')
 
 exports.addPage = async (req, res, next) =>{
@@ -16,6 +18,12 @@ exports.addPage = async (req, res, next) =>{
             message: 'page added successfully!',
             data: result
           });
+    }).catch(err=>{
+        console.log(err);
+        res.status(500).json({
+            message: 'page not added successfully!',
+            data: err
+          });
     })
 }
 
@@ -33,7 +41,13 @@ exports.updatePage = async (req, res, next) => {
             message: 'Page Updated successfully!',
             data: result
         });
-    });
+    }).catch(err=>{
+        console.log(err);
+        res.status(500).json({
+            message: 'page not updated successfully!',            
+            data: err
+          });    
+    })
 }
 
 exports.getPages = async (req, res, next) => {
@@ -57,11 +71,24 @@ exports.getPage = async (req, res, next) => {
     const pageUrl = req.body.pageUrl;
     await pageSchema.find({pageUrl: pageUrl}).then(result => {
         console.log(result)
-        res.status(200).json({
-            message: 'Page Fetched successfully!',
-            data: result
-        });
-    });
+        if(result.length > 0){
+            res.status(200).json({
+                message: 'Page Fetched successfully!',
+                data: result
+            });
+        } else {
+            res.status(404).json({
+                message: 'Page not found!',
+                data: result
+            });
+        }
+    }).catch(err=>{
+        console.log(err);
+        res.status(500).json({
+            message: 'page not fetched successfully!',            
+            data: err
+          });    
+    })
 }
 
 exports.deletePage = async (req, res, next) => {
