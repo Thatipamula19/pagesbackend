@@ -1,6 +1,6 @@
 const userSchema = require('../../models/Website/users');
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+import jwt from "jsonwebtoken";
 
 exports.addUser = async (req, res, next) =>{
     const fullname = req.body.fullname;
@@ -12,7 +12,6 @@ exports.addUser = async (req, res, next) =>{
     const centerName = req.body.centerName;
     const pageUrl = req.body.pageUrl;
     let user = await userSchema.findOne({email: email});
-    console.log(user,'user')
     if(user?.email == email){
         res.status(401).json({
             message: 'User is  already exits!',
@@ -31,7 +30,6 @@ exports.addUser = async (req, res, next) =>{
             });
         
            addUser.save().then(result=>{
-                console.log(result);
                 res.status(201).json({
                     message: 'Your Account is Created successfully!',
                     users: result
@@ -55,14 +53,12 @@ exports.updateRole = async (req, res, next) => {
     const pageUrl = req.body.pageUrl;
 
     let user = await userSchema.findById(userId);
-    console.log(user)
     user.role = role;
     user.city = city;
     user.centerName = centerName;
     user.pageUrl = pageUrl;
     await user.save().then(result => {
-        console.log(result)
-        res.status(201).json({
+        res.status(200).json({
             message: 'User Updated successfully!',
             userDetails: result,
         });
@@ -71,7 +67,6 @@ exports.updateRole = async (req, res, next) => {
 
 exports.getUsers = async (req, res, next) => {
     await userSchema.find().then(result => {
-        console.log(result)
         res.status(200).json({
             message: 'Users Fetched successfully!',
             users: result.map(re=>{
@@ -93,7 +88,6 @@ exports.getUsers = async (req, res, next) => {
 exports.getUser = async (req, res, next) => {
     const userId = req.params.userId;
     await userSchema.findOne(userId).then(result => {
-        console.log(result)
         res.status(200).json({
             message: 'User Fetched successfully!',
             user: {
@@ -111,10 +105,8 @@ exports.getUser = async (req, res, next) => {
 }
 
 exports.deleteUser = async (req, res, next) => {
-    console.log(req.body)
     const userId = req.body.userId;
     await userSchema.deleteOne({_id:userId}).then(result => {
-        console.log(result)
         res.status(200).json({
             message: 'User Deleted successfully!',
             users: result
@@ -126,14 +118,12 @@ exports.loginUser = async (req, res, next)=>{
     const email = req.body.email;
     const password = req.body.password;
     let user = await userSchema.findOne({email: email});
-    console.log(user,'user')
-    if(!user){
-        res.status(401).json({
+    if(!user?.fullname){
+        res.status(404).json({
             message: 'User is  not exits!',
           }); 
     } else {
     await bcrypt.compare(password, user.password).then(result=>{
-        console.log(result);
         if (!result) {
             res.status(401).json({
                 message: "Invalid Password"

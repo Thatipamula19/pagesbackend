@@ -13,13 +13,11 @@ exports.addPage = async (req, res, next) =>{
     });
 
    await addPage.save().then(result=>{
-        console.log(result);
         res.status(201).json({
             message: 'page added successfully!',
             data: result
           });
     }).catch(err=>{
-        console.log(err);
         res.status(500).json({
             message: 'page not added successfully!',
             data: err
@@ -29,20 +27,17 @@ exports.addPage = async (req, res, next) =>{
 
 exports.updatePage = async (req, res, next) => {
     const updatedPage = req.body
-    let page = await pageSchema.findOne({ page: updatedPage?.page })
-    console.log(page)
+    let page = await pageSchema.findOne({ page: updatedPage?.page });
     page.page = updatedPage?.page;
     page.banners = updatedPage?.banners;
     page.keyFeatures = updatedPage?.keyFeatures;
     page.faqs = updatedPage?.faqs;
     await page.save().then(result => {
-        console.log(result)
         res.status(201).json({
             message: 'Page Updated successfully!',
             data: result
         });
     }).catch(err=>{
-        console.log(err);
         res.status(500).json({
             message: 'page not updated successfully!',            
             data: err
@@ -52,7 +47,6 @@ exports.updatePage = async (req, res, next) => {
 
 exports.getPages = async (req, res, next) => {
     await pageSchema.find().then(result => {
-        console.log(result)
         res.status(200).json({
             message: 'Pages Fetched successfully!',
             data: result.map(re=>{
@@ -83,7 +77,6 @@ exports.getPage = async (req, res, next) => {
             });
         }
     }).catch(err=>{
-        console.log(err);
         res.status(500).json({
             message: 'page not fetched successfully!',            
             data: err
@@ -94,7 +87,6 @@ exports.getPage = async (req, res, next) => {
 exports.deletePage = async (req, res, next) => {
     const page = req.body.page
     await pageSchema.deleteOne({page:page}).then(result => {
-        console.log(result)
         res.status(200).json({
             message: 'Page Deleted successfully!',
             data: result

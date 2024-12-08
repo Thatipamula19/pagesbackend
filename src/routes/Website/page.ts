@@ -1,6 +1,7 @@
 import  Express  from "express";
 
 const pageController = require('../../controllers/Website/page');
+import authenticateToken from "../../middleware/isAuthenticated";
 
 const router = Express.Router();
 
@@ -17,9 +18,8 @@ const router = Express.Router();
  *     responses:
  *       200:
  *         description: Success
- * 
  */
-router.get('/', pageController.getPages);
+router.get('/', authenticateToken, pageController.getPages);
 
 // GET Page data
 
@@ -50,7 +50,7 @@ router.get('/', pageController.getPages);
  * 
 */
 
-router.post('/page', pageController.getPage);
+router.post('/page', authenticateToken, pageController.getPage);
 
 // POST Page data
 
@@ -103,12 +103,58 @@ router.post('/page', pageController.getPage);
  *                     answer:  
  *                       type: string
  *     responses:
- *       200:
- *         description: Success
+ *       201:
+ *         description: Page is created successfully
+ *         content: 
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 page:
+ *                   type: string
+ *                 pageUrl:
+ *                   type: string
+ *                 banners:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       imageWeb:
+ *                         type: string
+ *                       imageMob:
+ *                         type: string
+ *                 keyFeatures:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       title:
+ *                         type: string
+ *                       description:
+ *                         type: string
+ *                       image:
+ *                         type: string
+ *                 faqs:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       question:
+ *                         type: string
+ *                       answer:  
+ *                         type: string
+ *       403:
+ *         description: Forbidden
+ *       401:
+ *         description: Unauthorized
+ *       400:
+ *         description: Bad request
+ *       500:
+ *         description: Server error    
  * 
 */
 
-router.post('/addPage', pageController.addPage);
+router.post('/addPage', authenticateToken, pageController.addPage);
 
 // PUT Page data
 
@@ -177,11 +223,45 @@ router.post('/addPage', pageController.addPage);
  *         description: Bad request
 */
 
-router.post('/updatePage', pageController.updatePage);
+router.post('/updatePage', authenticateToken, pageController.updatePage);
 
 // DELETE Page data
 
-router.post('/deletePage', pageController.deletePage);
+/** 
+ * @openapi
+ * '/pages/deletePage':
+ *   post:
+ *     tags:
+ *     - Website
+ *     summary: Delete page
+ *     description: Delete page
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               page:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Page deleted successfully 
+ *       404:
+ *         description: Page not found
+ *       500:
+ *         description: Server error    
+ *       401:
+ *         description: Unauthorized
+ *       402:
+ *         description: Forbidden
+ *       403:
+ *         description: Forbidden
+ *       400:
+ *         description: Bad request
+ * */
+
+router.post('/deletePage', authenticateToken, pageController.deletePage);
 
 
 
