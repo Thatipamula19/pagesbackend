@@ -2,7 +2,7 @@ import puppeteer from 'puppeteer';
 import chromium from '@sparticuz/chromium-min';
 import GenerateReport from './PdfHtmls/GenerateReport';
 import GenerateCertificate from './PdfHtmls/GenerateCertificate';
-
+require("dotenv").config();
 exports.generateReport = async (req, res, next) => {
     const payload = await req.body;
     try {
@@ -42,10 +42,10 @@ exports.generateCertificate = async (req, res, next) => {
         const browser = await puppeteer.launch({
             headless: true,
             // args: [...chromium.args, '--no-sandbox', '--disable-setuid-sandbox', '--allow-file-access-from-files', '--enable-local-file-accesses', "--disable-gpu", "--disable-setuid-sandbox", "--no-sandbox", "--no-zygote"],
-            args: [...chromium.args, '--no-sandbox', '--disable-setuid-sandbox'],
+            args: [...chromium.args, '--no-sandbox', '--disable-setuid-sandbox', "--single-process", "--no-zygote"],
             defaultViewport: chromium.defaultViewport,
             // executablePath: "C:/Program Files/Google/Chrome/Application/chrome.exe", // this is for local
-            executablePath: await chromium.executablePath("https://s3.ap-south-1.amazonaws.com/ilwebsite2.devinfinitylearn.in/npm-libraries/chromium-v130.0.0-pack.tar"),
+            executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
         });
         const page = await browser.newPage();
         await page.setContent(htmlContent);
