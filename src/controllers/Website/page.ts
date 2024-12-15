@@ -1,5 +1,3 @@
-import e from "express";
-
 const pageSchema = require('../../models/Website/page')
 
 exports.addPage = async (req, res, next) =>{
