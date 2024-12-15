@@ -19,6 +19,7 @@ app.use('/faqs', faqsRoutes);
 app.use('/pages', pageRoutes);
 app.use('/user', userRoutes);
 app.use('/pdfs', require('./routes/OpenApis/pdfs'));
+app.use('/student', require('./routes/StudentResults/StudentResults'));
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
