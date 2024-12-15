@@ -45,7 +45,8 @@ exports.generateCertificate = async (req, res, next) => {
             args: [...chromium.args, '--no-sandbox', '--disable-setuid-sandbox', "--single-process", "--no-zygote"],
             defaultViewport: chromium.defaultViewport,
             // executablePath: "C:/Program Files/Google/Chrome/Application/chrome.exe", // this is for local
-            executablePath: await chromium.executablePath("https://s3.ap-south-1.amazonaws.com/ilwebsite2.devinfinitylearn.in/npm-libraries/chromium-v130.0.0-pack.tar"),
+            // executablePath: await chromium.executablePath("https://s3.ap-south-1.amazonaws.com/ilwebsite2.devinfinitylearn.in/npm-libraries/chromium-v130.0.0-pack.tar"),
+            executablePath: process.env.PUPPETEER_CHROMIUM_BIN
         });
         const page = await browser.newPage();
         await page.setContent(htmlContent);
